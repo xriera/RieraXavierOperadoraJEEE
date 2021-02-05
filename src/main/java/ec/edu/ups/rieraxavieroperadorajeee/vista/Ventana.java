@@ -5,15 +5,25 @@
  */
 package ec.edu.ups.rieraxavieroperadorajeee.vista;
 
+import ec.edu.ups.rieraxavieroperadorajeee.modelo.ClienteFactura;
 import ec.edu.ups.rieraxavieroperadorajeee.modelo.Parametos;
+import ec.edu.ups.rieraxavieroperadorajeee.modelo.ParametrosFactura;
+import ec.edu.ups.rieraxavieroperadorajeee.modelo.RecargaFactura;
+import ec.edu.ups.rieraxavieroperadorajeee.modelo.Respuesta;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
 
 /**
  *
  * @author xavier
  */
 public class Ventana extends javax.swing.JFrame {
+
     private String WS_SAVE_RECARGA = "http://localhost:8080/RieraXavierCajeraJEE/rest/clientes/recarga";
-    private String WS_SAVE_fACTURA = "http://localhost:8080/RieraXavierSRIJEE/rest/clientes/ingresar" ;       
+    private String WS_SAVE_fACTURA = "http://localhost:8080/RieraXavierSRIJEE/rest/clientes/ingresar";
+
     /**
      * Creates new form Ventana
      */
@@ -36,12 +46,10 @@ public class Ventana extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        txtIdCuenta1 = new javax.swing.JTextField();
         txtSaldo = new javax.swing.JTextField();
         txtCelular = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        txtValorRecarga = new javax.swing.JTextField();
         bntGuardar = new javax.swing.JButton();
+        txtIdCuenta = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -57,15 +65,9 @@ public class Ventana extends javax.swing.JFrame {
 
         jLabel3.setText("Cedula");
 
-        jLabel4.setText("Saldo");
+        jLabel4.setText("Valor recarga");
 
         jLabel5.setText("Numero celular");
-
-        txtIdCuenta1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtIdCuenta1ActionPerformed(evt);
-            }
-        });
 
         txtSaldo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -79,18 +81,16 @@ public class Ventana extends javax.swing.JFrame {
             }
         });
 
-        jLabel6.setText("Valor recarga");
-
-        txtValorRecarga.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtValorRecargaActionPerformed(evt);
-            }
-        });
-
         bntGuardar.setText("Guardar");
         bntGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bntGuardarActionPerformed(evt);
+            }
+        });
+
+        txtIdCuenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtIdCuentaActionPerformed(evt);
             }
         });
 
@@ -101,10 +101,8 @@ public class Ventana extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(48, 48, 48)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1)))
+                        .addGap(127, 127, 127)
+                        .addComponent(bntGuardar))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -114,32 +112,29 @@ public class Ventana extends javax.swing.JFrame {
                                     .addComponent(jLabel4)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(40, 40, 40)
+                                .addComponent(jLabel5))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(48, 48, 48)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel5))))
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel1))))
                         .addGap(59, 59, 59)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtCelular, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtValorRecarga, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(127, 127, 127)
-                        .addComponent(bntGuardar)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtCelular, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+                            .addComponent(txtSaldo, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+                            .addComponent(txtCedula)
+                            .addComponent(txtIdCuenta))))
                 .addContainerGap(496, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(194, 194, 194)
-                    .addComponent(txtIdCuenta1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(497, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1)
-                .addGap(33, 33, 33)
-                .addComponent(jLabel2)
+                .addGap(25, 25, 25)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2)
+                    .addComponent(txtIdCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -152,18 +147,9 @@ public class Ventana extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtCelular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
-                .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(txtValorRecarga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(53, 53, 53)
+                .addGap(107, 107, 107)
                 .addComponent(bntGuardar)
                 .addContainerGap(83, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(73, 73, 73)
-                    .addComponent(txtIdCuenta1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(350, Short.MAX_VALUE)))
         );
 
         pack();
@@ -173,10 +159,6 @@ public class Ventana extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCedulaActionPerformed
 
-    private void txtIdCuenta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdCuenta1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtIdCuenta1ActionPerformed
-
     private void txtSaldoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSaldoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSaldoActionPerformed
@@ -185,22 +167,25 @@ public class Ventana extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCelularActionPerformed
 
-    private void txtValorRecargaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtValorRecargaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtValorRecargaActionPerformed
-
     private void bntGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntGuardarActionPerformed
         // TODO add your handling code here:
-        Parametos p= new Parametos();
+        Parametos p = new Parametos();
         p.setCedula(txtCedula.getText());
-        p.setIdCuenta(txtIdCuenta1.getText());
+        p.setIdCuenta(txtIdCuenta.getText());
         p.setNumeroCelular(txtCelular.getText());
         p.setSaldo(Double.valueOf(txtSaldo.getText()));
-        
-        
-        
-        
+
+        Client client = ClientBuilder.newClient();
+        WebTarget target = client.target(WS_SAVE_RECARGA);
+        Respuesta respuesta = target.request().post(Entity.json(p), Respuesta.class);
+        System.out.println("respuesta" + respuesta);
+
+        insertarfactura(txtCedula.getText(), txtIdCuenta.getText(), txtCelular.getText(), Double.valueOf(txtSaldo.getText()));
     }//GEN-LAST:event_bntGuardarActionPerformed
+
+    private void txtIdCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdCuentaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtIdCuentaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -237,6 +222,27 @@ public class Ventana extends javax.swing.JFrame {
         });
     }
 
+    public void insertarfactura(String cedula, String nombre, String numerocelular, double saldo) {
+        ClienteFactura cl = new ClienteFactura();
+        cl.setCedula(cedula);
+        cl.setNombre(nombre);
+        cl.setNumeroCeular(numerocelular);
+        cl.setSaldo(saldo);
+
+        RecargaFactura recarga = new RecargaFactura();
+        recarga.setValor(saldo);
+
+        ParametrosFactura pfactura = new ParametrosFactura();
+
+        pfactura.setCliente(cl);
+        pfactura.setRecarga(recarga);
+
+        Client client = ClientBuilder.newClient();
+        WebTarget target = client.target(WS_SAVE_fACTURA);
+        Respuesta respuesta = target.request().post(Entity.json(pfactura), Respuesta.class);
+        System.out.println("respuesta" + respuesta);
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bntGuardar;
     private javax.swing.JLabel jLabel1;
@@ -244,11 +250,9 @@ public class Ventana extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JTextField txtCedula;
     private javax.swing.JTextField txtCelular;
-    private javax.swing.JTextField txtIdCuenta1;
+    private javax.swing.JTextField txtIdCuenta;
     private javax.swing.JTextField txtSaldo;
-    private javax.swing.JTextField txtValorRecarga;
     // End of variables declaration//GEN-END:variables
 }
